@@ -5,9 +5,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import julia.faco.model.Formato;
-import julia.faco.model.Modelo;
-import julia.faco.model.TipoProduto;
+import julia.faco.model.Format;
+import julia.faco.model.Model;
+import julia.faco.model.ProductType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,49 +16,53 @@ import java.util.ResourceBundle;
 public class TelaController implements Initializable {
 
     @FXML
-    private ComboBox<TipoProduto> comboBoxTipo;
+    private ComboBox<ProductType> cbProductType;
 
     @FXML
-    private TitledPane paneModelo;
+    private TitledPane tpModel;
 
     @FXML
-    private TreeView<String> treeViewProdutos;
+    private TreeView<String> tvProducts;
 
+    TreeItem<String> root = new TreeItem<>("Produtos");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        comboBoxTipo.getItems().addAll(TipoProduto.values());
+        cbProductType.getItems().addAll(ProductType.values());
+        tvProducts.setRoot(root);
+        populateProductTreeView();
 
-        TreeItem<String> raiz = new TreeItem<>("Produtos");
+    }
 
-        treeViewProdutos.setRoot(raiz);
 
-        comboBoxTipo.setOnAction(event -> {
-            TipoProduto selecionado = comboBoxTipo.getValue();
-            if (selecionado != null) {
+    public void populateProductTreeView() {
 
-                raiz.setValue(selecionado.getNome());
-                paneModelo.setDisable(false);
-                paneModelo.setExpanded(true);
+        cbProductType.setOnAction(event -> {
+            ProductType selected = cbProductType.getValue();
+            if (selected != null) {
 
-                raiz.getChildren().clear();
+                root.setValue(selected.getName());
+                tpModel.setDisable(false);
+                tpModel.setExpanded(true);
 
-                for (Formato formato : Formato.values()) {
-                    if (selecionado.equals(formato.getTipoProduto())) {
-                        String formatoNome = formato.getNome();
-                        TreeItem<String> categoria = new TreeItem<>(formatoNome);
+                root.getChildren().clear();
 
-                        for (Modelo modelo : Modelo.values()) {
-                            if (formato.equals(modelo.getFormato())) {
-                                String modeloNome = modelo.getNome();
-                                categoria.getChildren().add(new TreeItem<>(modeloNome));
+                for (Format format : Format.values()) {
+                    if (selected.equals(format.getProductType())) {
+                        String formatName = format.getName();
+                        TreeItem<String> category = new TreeItem<>(formatName);
+
+                        for (Model model : Model.values()) {
+                            if (format.equals(model.getFormat())) {
+                                String modelName = model.getName();
+                                category.getChildren().add(new TreeItem<>(modelName));
                             }
                         }
-                        raiz.getChildren().add(categoria);
-                        categoria.setExpanded(true);
+                        root.getChildren().add(category);
+                        category.setExpanded(true);
                     }
                 }
-            treeViewProdutos.setShowRoot(false);
+                tvProducts.setShowRoot(false);
             }
         });
     }

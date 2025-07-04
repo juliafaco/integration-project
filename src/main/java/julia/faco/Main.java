@@ -13,7 +13,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/test.fxml")); //Cria o loader para a test.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainView.fxml")); //Cria o loader para a MainView.fxml
         Parent parent = loader.load(); //Faz o carregamento e guarda no parent
 
         Scene scene = new Scene(parent); //cria uma nova cena com o parent criado
