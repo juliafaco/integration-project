@@ -5,9 +5,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import julia.faco.model.Format;
-import julia.faco.model.Model;
-import julia.faco.model.ProductType;
+import model.Format;
+import model.Model;
+import model.ProductType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
